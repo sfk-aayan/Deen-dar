@@ -17,6 +17,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.214"
+        android:transitionName="logo_tr"
         app:srcCompat="@drawable/enso" />
 
     <ImageView
@@ -35,7 +36,7 @@
         android:id="@+id/circle_2"
         android:layout_width="194dp"
         android:layout_height="203dp"
-        android:layout_marginEnd="220dp"
+        android:layout_marginEnd="216dp"
         android:layout_marginBottom="624dp"
         android:alpha="0.4"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -44,6 +45,7 @@
 
     <TextView
         android:id="@+id/login_reg_title"
+        android:transitionName="title_tr"
         android:layout_width="209dp"
         android:layout_height="66dp"
         android:alpha="0.75"
@@ -64,8 +66,8 @@
         android:layout_marginBottom="192dp"
         android:backgroundTint="#00BFA6"
         android:fontFamily="@font/elmessiri_bold"
-        android:textColor="@color/white"
         android:text="Login"
+        android:textColor="@color/white"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -79,8 +81,8 @@
         android:backgroundTint="#00BFA6"
         android:fontFamily="@font/elmessiri_bold"
         android:text="Register"
-        android:textSize="24sp"
         android:textColor="@color/white"
+        android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.494"

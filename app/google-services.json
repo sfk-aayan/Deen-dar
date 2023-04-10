@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "694760416691",
+    "project_id": "deen-dar",
+    "storage_bucket": "deen-dar.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:694760416691:android:5124c4047a90de2d2697c6",
+        "android_client_info": {
+          "package_name": "com.example.deen_dar"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "694760416691-p76mphkpkqcdo1qo76iniu4b67a7ro5k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBGUUjR_HcqcpobMLWruvED3VA7rw-THf8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "694760416691-p76mphkpkqcdo1qo76iniu4b67a7ro5k.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
