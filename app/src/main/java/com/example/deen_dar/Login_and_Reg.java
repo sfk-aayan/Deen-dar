@@ -15,6 +15,9 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.google.android.material.textfield.TextInputLayout;
+
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -23,6 +26,7 @@ public class Login_and_Reg extends AppCompatActivity {
     TextView intro_msg, login_reg_title;
     ImageView logo;
     Animation fade_in_anim;
+
     private Button login, reg;
 
     @Override
@@ -33,6 +37,7 @@ public class Login_and_Reg extends AppCompatActivity {
         login_reg_title = findViewById(R.id.login_reg_title);
         fade_in_anim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_in);
         logo = findViewById(R.id.imageView);
+
 
         setText("Welcome to Deen-dar, the Halal Tinder!");
 
