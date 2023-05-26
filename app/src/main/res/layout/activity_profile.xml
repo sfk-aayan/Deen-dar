@@ -49,7 +49,8 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.094"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:srcCompat="@drawable/white_logo"
+                        app:srcCompat="@drawable/enso"
+                        app:tint="@color/white"
                         tools:layout_editor_absoluteY="16dp" />
 
                     <ImageView
