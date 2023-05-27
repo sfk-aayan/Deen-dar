@@ -40,6 +40,7 @@ public class Login extends AppCompatActivity {
 
                 ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(Login.this, pairs);
                 startActivity(i, options.toBundle());
+                finish();
             }
         });
     }
@@ -55,5 +56,6 @@ public class Login extends AppCompatActivity {
 
         ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(Login.this, pairs);
         startActivity(i, options.toBundle());
+        finish();
     }
 }

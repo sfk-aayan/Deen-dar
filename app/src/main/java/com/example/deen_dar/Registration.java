@@ -39,8 +39,6 @@ public class Registration extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Toast.makeText(Registration.this, "You can Register Now!", Toast.LENGTH_LONG).show();
-
         setContentView(R.layout.activity_registration);
         logo = findViewById(R.id.logo_image);
         login_btn = (Button) findViewById(R.id.login_btn);
@@ -100,7 +98,6 @@ public class Registration extends AppCompatActivity {
                 registerUser(s_fullname, s_username, s_email, s_password);
             }
 
-
             }
 
         });
@@ -116,6 +113,7 @@ public class Registration extends AppCompatActivity {
 
                 ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(Registration.this, pairs);
                 startActivity(i, options.toBundle());
+                finish();
             }
         });
     }
@@ -130,9 +128,18 @@ public class Registration extends AppCompatActivity {
                     FirebaseUser firebaseUser = auth.getCurrentUser();
 
                     firebaseUser.sendEmailVerification();
-                    Intent i = new Intent(Registration.this, Login_and_Reg.class);
+                    Intent i = new Intent(Registration.this, VerificationCompletion.class);
+                    Pair[] pairs = new Pair[2];
+                    pairs[0] = new Pair<View, String>(logo, "logo_tr");
+                    pairs[1] = new Pair<View, String>(login_reg_title, "title_tr");
+
+                    i.putExtra("username", s_username);
+                    i.putExtra("fullname", s_fullname);
+
                     i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(i);
+
+                    ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(Registration.this, pairs);
+                    startActivity(i, options.toBundle());
                     finish();
                 }
                 else {
@@ -171,5 +178,6 @@ public class Registration extends AppCompatActivity {
 
         ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(Registration.this, pairs);
         startActivity(i, options.toBundle());
+        finish();
     }
 }
