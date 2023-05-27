@@ -15,7 +15,7 @@
             android:name=".VerificationCompletion"
             android:exported="false" />
         <activity
-            android:name=".profile_setup"
+            android:name=".ProfileSetup"
             android:exported="false" />
         <activity
             android:name=".Profile"
