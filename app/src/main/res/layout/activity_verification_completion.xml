@@ -48,7 +48,7 @@
         android:layout_marginTop="80dp"
         android:fontFamily="@font/elmessiri_bold"
         android:gravity="center"
-        android:text="A verification mail has been sent to your Email Address. Please verify your email and then click on continue to go to the Profile Setup Page."
+        android:text="A verifivation mail has been sent to your Email Address. Please verify your email and then click on continue to go to the Profile Setup Page."
         android:textSize="20dp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
