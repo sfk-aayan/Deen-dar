@@ -129,7 +129,7 @@ public class Registration extends AppCompatActivity {
 
                     firebaseUser.sendEmailVerification();
                     Intent i = new Intent(Registration.this, VerificationCompletion.class);
-                    Pair[] pairs = new Pair[3];
+                    Pair[] pairs = new Pair[2];
                     pairs[0] = new Pair<View, String>(logo, "logo_tr");
                     pairs[1] = new Pair<View, String>(login_reg_title, "title_tr");
 
