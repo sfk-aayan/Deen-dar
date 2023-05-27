@@ -39,8 +39,6 @@ public class Registration extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Toast.makeText(Registration.this, "You can Register Now!", Toast.LENGTH_LONG).show();
-
         setContentView(R.layout.activity_registration);
         logo = findViewById(R.id.logo_image);
         login_btn = (Button) findViewById(R.id.login_btn);
@@ -100,7 +98,6 @@ public class Registration extends AppCompatActivity {
                 registerUser(s_fullname, s_username, s_email, s_password);
             }
 
-
             }
 
         });
@@ -116,6 +113,7 @@ public class Registration extends AppCompatActivity {
 
                 ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(Registration.this, pairs);
                 startActivity(i, options.toBundle());
+                finish();
             }
         });
     }
@@ -171,5 +169,6 @@ public class Registration extends AppCompatActivity {
 
         ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(Registration.this, pairs);
         startActivity(i, options.toBundle());
+        finish();
     }
 }
