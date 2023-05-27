@@ -128,9 +128,18 @@ public class Registration extends AppCompatActivity {
                     FirebaseUser firebaseUser = auth.getCurrentUser();
 
                     firebaseUser.sendEmailVerification();
-                    Intent i = new Intent(Registration.this, Login_and_Reg.class);
+                    Intent i = new Intent(Registration.this, VerificationCompletion.class);
+                    Pair[] pairs = new Pair[3];
+                    pairs[0] = new Pair<View, String>(logo, "logo_tr");
+                    pairs[1] = new Pair<View, String>(login_reg_title, "title_tr");
+
+                    i.putExtra("username", s_username);
+                    i.putExtra("fullname", s_fullname);
+
                     i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(i);
+
+                    ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(Registration.this, pairs);
+                    startActivity(i, options.toBundle());
                     finish();
                 }
                 else {
