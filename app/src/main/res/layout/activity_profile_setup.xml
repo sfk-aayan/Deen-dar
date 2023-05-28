@@ -140,7 +140,7 @@
                                     android:id="@+id/radioButton2"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:text="Femail" />
+                                    android:text="Female" />
                             </RadioGroup>
 
                             <com.google.android.material.textfield.TextInputLayout
@@ -207,63 +207,114 @@
 
                             <LinearLayout
                                 android:layout_width="match_parent"
-                                android:layout_height="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_centerHorizontal="true"
                                 android:orientation="horizontal">
 
-                                <Button
-                                    android:id="@+id/btnRead"
-                                    android:layout_width="wrap_content"
+                                <CheckBox
+                                    android:id="@+id/chkRead"
+                                    android:layout_width="0dp"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
-                                    android:layout_marginRight="2dp"
-                                    android:text="Reading" />
+                                    android:text="Reading"
+                                    android:fontFamily="@font/elmessiri_bold"
+                                    android:button="@drawable/checkbox_button"
+                                    android:textColor="#000000"
+                                    android:padding="8dp"
+                                    android:layout_marginEnd="8dp"
+                                    android:layout_marginBottom="8dp"
+                                    android:textAlignment="center"
+                                    android:backgroundTint="@android:color/white" />
 
-                                <Button
-                                    android:id="@+id/btnCook"
-                                    android:layout_width="wrap_content"
+                                <CheckBox
+                                    android:id="@+id/chkCook"
+                                    android:layout_width="0dp"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
-                                    android:layout_marginRight="2dp"
-                                    android:text="Cooking" />
+                                    android:text="Cooking"
+                                    android:fontFamily="@font/elmessiri_bold"
+                                    android:button="@drawable/checkbox_button"
+                                    android:textColor="#000000"
+                                    android:padding="8dp"
+                                    android:layout_marginEnd="8dp"
+                                    android:layout_marginBottom="8dp"
+                                    android:textAlignment="center"
+                                    android:backgroundTint="@android:color/white" />
 
-                                <Button
-                                    android:id="@+id/btnSport"
-                                    android:layout_width="wrap_content"
+                                <CheckBox
+                                    android:id="@+id/chkSport"
+                                    android:layout_width="0dp"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
-                                    android:layout_marginRight="2dp"
-                                    android:text="Sports" />
+                                    android:text="Sports"
+                                    android:button="@drawable/checkbox_button"
+                                    android:textColor="#000000"
+                                    android:fontFamily="@font/elmessiri_bold"
+                                    android:padding="8dp"
+                                    android:layout_marginEnd="8dp"
+                                    android:layout_marginBottom="8dp"
+                                    android:textAlignment="center"
+                                    android:backgroundTint="@android:color/white" />
+
                             </LinearLayout>
+
+
 
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:orientation="horizontal">
+                                android:layout_centerHorizontal="true"
+                                android:orientation="horizontal"
 
-                                <Button
-                                    android:id="@+id/btnWrite"
-                                    android:layout_width="wrap_content"
+                                >
+
+                                <CheckBox
+                                    android:id="@+id/chkWrite"
+                                    android:layout_width="0dp"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
-                                    android:layout_marginRight="2dp"
-                                    android:text="Write" />
+                                    android:text="Writing"
+                                    android:fontFamily="@font/elmessiri_bold"
+                                    android:button="@drawable/checkbox_button"
+                                    android:textColor="#000000"
+                                    android:padding="8dp"
+                                    android:layout_marginEnd="2dp"
+                                    android:layout_marginBottom="8dp"
+                                    android:textAlignment="center"
+                                    android:backgroundTint="@android:color/white" />
 
-                                <Button
-                                    android:id="@+id/btnTravel"
-                                    android:layout_width="wrap_content"
+                                <CheckBox
+                                    android:id="@+id/chkTravel"
+                                    android:layout_width="0dp"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
-                                    android:layout_marginRight="2dp"
-                                    android:text="Travel" />
+                                    android:text="Traveling"
+                                    android:fontFamily="@font/elmessiri_bold"
+                                    android:button="@drawable/checkbox_button"
+                                    android:textColor="#000000"
+                                    android:padding="8dp"
+                                    android:layout_marginEnd="2dp"
+                                    android:layout_marginBottom="8dp"
+                                    android:textAlignment="center"
+                                    android:backgroundTint="@android:color/white" />
 
-                                <Button
-                                    android:id="@+id/btnQuran"
-                                    android:layout_width="wrap_content"
+                                <CheckBox
+                                    android:id="@+id/chkQuran"
+                                    android:layout_width="0dp"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
-                                    android:layout_marginRight="2dp"
-                                    android:text="Quran" />
+                                    android:text="Quran"
+                                    android:button="@drawable/checkbox_button"
+                                    android:textColor="#000000"
+                                    android:fontFamily="@font/elmessiri_bold"
+                                    android:padding="8dp"
+                                    android:layout_marginEnd="2dp"
+                                    android:layout_marginBottom="8dp"
+                                    android:textAlignment="center"
+                                    android:backgroundTint="@android:color/white" />
+
                             </LinearLayout>
+
 
                             <Button
                                 android:id="@+id/button4"

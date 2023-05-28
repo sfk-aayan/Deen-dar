@@ -11,6 +11,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -28,7 +30,9 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class ProfileSetup extends AppCompatActivity {
@@ -40,10 +44,13 @@ public class ProfileSetup extends AppCompatActivity {
     private RadioGroup gender_btn;
     private ImageView profileImage;
     private Button uploadImage_btn, go_btn;
+    private CheckBox chkRead, chkCook, chkSport, chkWrite, chkTravel, chkQuran;
+
     private Uri selectedImageUri;
     String username, fullname, gender;
     private FirebaseAuth auth;
     private FirebaseFirestore firestore;
+    private List<String> interests;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +59,7 @@ public class ProfileSetup extends AppCompatActivity {
 
 
         Intent intent = getIntent();
+        interests = new ArrayList<>();
         username = intent.getStringExtra("username");
         fullname = intent.getStringExtra("fullname");
 
@@ -64,8 +72,18 @@ public class ProfileSetup extends AppCompatActivity {
         height = findViewById(R.id.fullname2);
         phone = findViewById(R.id.fullname3);
         occupation = findViewById(R.id.fullname4);
+
         uploadImage_btn = findViewById(R.id.uploadImage_btn);
         go_btn = findViewById(R.id.button4);
+        gender_btn = findViewById(R.id.radioGroup);
+
+
+        chkRead = findViewById(R.id.chkRead);
+        chkCook = findViewById(R.id.chkCook);
+        chkSport = findViewById(R.id.chkSport);
+        chkWrite = findViewById(R.id.chkWrite);
+        chkTravel = findViewById(R.id.chkTravel);
+        chkQuran = findViewById(R.id.chkQuran);
 
         uploadImage_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,6 +104,72 @@ public class ProfileSetup extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 saveProfileInfo();
+            }
+        });
+
+        chkRead.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    interests.add(chkRead.getText().toString());
+                } else {
+                    interests.remove(chkRead.getText().toString());
+                }
+            }
+        });
+
+        chkCook.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    interests.add(chkCook.getText().toString());
+                } else {
+                    interests.remove(chkCook.getText().toString());
+                }
+            }
+        });
+
+        chkSport.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    interests.add(chkSport.getText().toString());
+                } else {
+                    interests.remove(chkSport.getText().toString());
+                }
+            }
+        });
+
+        chkWrite.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    interests.add(chkWrite.getText().toString());
+                } else {
+                    interests.remove(chkWrite.getText().toString());
+                }
+            }
+        });
+
+        chkTravel.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    interests.add(chkTravel.getText().toString());
+                } else {
+                    interests.remove(chkTravel.getText().toString());
+                }
+            }
+        });
+
+        chkQuran.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    interests.add(chkQuran.getText().toString());
+                } else {
+                    interests.remove(chkQuran.getText().toString());
+                }
             }
         });
     }
@@ -124,13 +208,13 @@ public class ProfileSetup extends AppCompatActivity {
         String s_phone = this.phone.getEditText().getText().toString().trim();
         String s_occupation = this.occupation.getEditText().getText().toString().trim();
 
-//        int selectedRadioButtonId = gender_btn.getCheckedRadioButtonId();
-//        if (selectedRadioButtonId != -1) {
-//            RadioButton selectedRadioButton = findViewById(selectedRadioButtonId);
-//            gender = selectedRadioButton.getText().toString();
-//        }
+        int selectedRadioButtonId = gender_btn.getCheckedRadioButtonId();
+        if (selectedRadioButtonId != -1) {
+            RadioButton selectedRadioButton = findViewById(selectedRadioButtonId);
+            gender = selectedRadioButton.getText().toString();
+        }
 
-        if (s_location.isEmpty() || s_age.isEmpty() || s_height.isEmpty() || s_phone.isEmpty() || s_occupation.isEmpty()) {
+        if (s_location.isEmpty() || s_age.isEmpty() || s_height.isEmpty() || s_phone.isEmpty() || s_occupation.isEmpty() || selectedImageUri == null || gender.isEmpty()) {
             Toast.makeText(this, "Please fill all the fields", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -141,15 +225,13 @@ public class ProfileSetup extends AppCompatActivity {
                 .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        // Get the download URL of the uploaded image
+
                         Task<Uri> downloadUrlTask = taskSnapshot.getStorage().getDownloadUrl();
                         downloadUrlTask.addOnSuccessListener(new OnSuccessListener<Uri>() {
                             @Override
                             public void onSuccess(Uri downloadUrl) {
-                                // Image upload successful, get the download URL and store it in Firestore
                                 String imageUrl = downloadUrl.toString();
 
-                                // Continue with saving other profile information
 
                                 String userId = auth.getCurrentUser().getUid();
                                 Map<String, Object> profileData = new HashMap<>();
@@ -160,8 +242,9 @@ public class ProfileSetup extends AppCompatActivity {
                                 profileData.put("occupation", s_occupation);
                                 profileData.put("username", username);
                                 profileData.put("fullname", fullname);
-                                //profileData.put("gender", "male");
+                                profileData.put("gender", "male");
                                 profileData.put("image_url", imageUrl);
+                                profileData.put("interests", interests);
 
                                 firestore.collection("Users").document(userId)
                                         .set(profileData)
@@ -184,7 +267,7 @@ public class ProfileSetup extends AppCompatActivity {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         // Handle the image upload failure
-                        Toast.makeText(ProfileSetup.this, "Failed to upload image", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ProfileSetup.this, "Failed to upload image!", Toast.LENGTH_SHORT).show();
                     }
                 });
     }
