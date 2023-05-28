@@ -17,12 +17,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.Timer;
 import java.util.TimerTask;
 
 
 public class Login_and_Reg extends AppCompatActivity {
+
+    private FirebaseAuth auth;
+    private FirebaseUser user;
     TextView intro_msg, login_reg_title;
     ImageView logo;
     Animation fade_in_anim;
@@ -37,6 +42,16 @@ public class Login_and_Reg extends AppCompatActivity {
         login_reg_title = findViewById(R.id.login_reg_title);
         fade_in_anim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_in);
         logo = findViewById(R.id.imageView);
+
+//        auth = FirebaseAuth.getInstance();
+//        auth.signOut();
+//        user = auth.getCurrentUser();
+//        if (user != null && user.isEmailVerified()) {
+//            Intent intent = new Intent(Login_and_Reg.this, Profile.class);
+//            startActivity(intent);
+//            finish();
+//            return;
+//        }
 
 
         setText("Welcome to Deen-dar, the Halal Tinder!");
