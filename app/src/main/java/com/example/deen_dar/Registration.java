@@ -113,7 +113,6 @@ public class Registration extends AppCompatActivity {
 
                 ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(Registration.this, pairs);
                 startActivity(i, options.toBundle());
-                finish();
             }
         });
     }
@@ -139,7 +138,6 @@ public class Registration extends AppCompatActivity {
 
                     ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(Registration.this, pairs);
                     startActivity(i, options.toBundle());
-                    finish();
                 }
                 else {
                     try{
@@ -177,6 +175,5 @@ public class Registration extends AppCompatActivity {
 
         ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(Registration.this, pairs);
         startActivity(i, options.toBundle());
-        finish();
     }
 }

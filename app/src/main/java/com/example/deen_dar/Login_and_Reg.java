@@ -56,7 +56,6 @@ public class Login_and_Reg extends AppCompatActivity {
 
                 ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(Login_and_Reg.this, pairs);
                 startActivity(i, options.toBundle());
-                finish();
             }
         });
 
@@ -69,14 +68,13 @@ public class Login_and_Reg extends AppCompatActivity {
                 pairs[1] = new Pair<View, String>(login_reg_title, "title_tr");
                 ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(Login_and_Reg.this, pairs);
                 startActivity(i, options.toBundle());
-                finish();
             }
         });
     }
 
     @Override
     public void onBackPressed(){
-        finish();
+        finishAffinity();
     }
 
     public void setText(final String s)

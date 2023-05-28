@@ -45,7 +45,8 @@
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <ImageView
-                        android:id="@+id/imageView5"
+                        android:id="@+id/logo"
+                        android:transitionName="logo_tr"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         app:layout_constraintEnd_toEndOf="parent"
