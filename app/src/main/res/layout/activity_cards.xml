@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/white_background"
-    tools:context=".cards">
+    tools:context=".Cards">
 
     <ScrollView
         android:layout_width="match_parent"

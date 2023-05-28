@@ -4,7 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
-public class cards extends AppCompatActivity {
+public class Cards extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
