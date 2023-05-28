@@ -2,8 +2,10 @@ package com.example.deen_dar;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -21,7 +23,7 @@ import java.util.List;
 public class Profile extends AppCompatActivity {
 
     private TextView name_age, location, gender, height, phone, occupation, interests;
-    private ImageView profilePic;
+    private ImageView profilePic, matchesImg, matchingImg, profileImg;
     private FirebaseFirestore db;
     private FirebaseAuth auth;
 
@@ -38,6 +40,10 @@ public class Profile extends AppCompatActivity {
         occupation = findViewById(R.id.occupation);
         interests = findViewById(R.id.interests);
         profilePic = findViewById(R.id.imageView4);
+
+        matchingImg = findViewById(R.id.matching_img);
+        matchesImg = findViewById(R.id.matches_img);
+        profileImg = findViewById(R.id.profile_img);
 
         auth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
@@ -81,6 +87,14 @@ public class Profile extends AppCompatActivity {
                 } else {
                     Profile.this.interests.setText("No interests given.");
                 }
+            }
+        });
+
+        matchingImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(Profile.this, Login_and_Reg.class);
+                startActivity(i);
             }
         });
     }

@@ -242,7 +242,7 @@ public class ProfileSetup extends AppCompatActivity {
                                 profileData.put("occupation", s_occupation);
                                 profileData.put("username", username);
                                 profileData.put("fullname", fullname);
-                                profileData.put("gender", "male");
+                                profileData.put("gender", gender);
                                 profileData.put("image_url", imageUrl);
                                 profileData.put("interests", interests);
 
@@ -253,7 +253,9 @@ public class ProfileSetup extends AppCompatActivity {
                                             public void onComplete(@NonNull Task<Void> task) {
                                                 if (task.isSuccessful()) {
                                                     Toast.makeText(ProfileSetup.this, "Profile information saved successfully", Toast.LENGTH_SHORT).show();
-                                                    // TODO: Handle the completion and navigate to the next activity
+                                                    Intent i = new Intent(ProfileSetup.this, Profile.class);
+                                                    startActivity(i);
+                                                    finish();
                                                 } else {
                                                     Toast.makeText(ProfileSetup.this, "Failed to save profile information", Toast.LENGTH_SHORT).show();
                                                 }

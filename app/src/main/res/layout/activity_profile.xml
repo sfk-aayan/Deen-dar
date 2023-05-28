@@ -117,7 +117,7 @@
                                         android:layout_height="wrap_content">
 
                                         <ImageView
-                                            android:id="@+id/imageView6"
+                                            android:id="@+id/matches_img"
                                             android:layout_width="100dp"
                                             android:layout_height="100dp"
                                             android:layout_marginTop="16dp"
@@ -355,8 +355,8 @@
 
             <ImageView
                 android:id="@+id/imageView2"
-                android:layout_width="60dp"
-                android:layout_height="40dp"
+                android:layout_width="68dp"
+                android:layout_height="42dp"
                 android:layout_marginStart="60dp"
                 android:layout_marginEnd="351dp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -364,17 +364,17 @@
                 app:srcCompat="@drawable/choosing" />
 
             <ImageView
-                android:id="@+id/imageView9"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
+                android:id="@+id/matching_img"
+                android:layout_width="68dp"
+                android:layout_height="42dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:srcCompat="@drawable/heart" />
 
             <ImageView
-                android:id="@+id/imageView10"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
+                android:id="@+id/profile_img"
+                android:layout_width="68dp"
+                android:layout_height="42dp"
                 android:layout_marginStart="260dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
