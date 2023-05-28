@@ -7,6 +7,9 @@ import android.text.TextUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
@@ -57,8 +60,12 @@ public class Profile extends AppCompatActivity {
 
 
                 if (imageUri != null) {
-                    Glide.with(this).load(imageUri).into(profilePic);
+                    Glide.with(Profile.this)
+                            .load(imageUri)
+                            .apply(RequestOptions.circleCropTransform())
+                            .into(profilePic);
                 }
+
                 String start_msg = name + ", " + age;
 
                 Profile.this.name_age.setText(start_msg);
