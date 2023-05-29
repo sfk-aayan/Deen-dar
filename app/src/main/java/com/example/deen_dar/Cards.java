@@ -49,8 +49,6 @@ public class Cards extends AppCompatActivity {
 
         getCurrentUser();
         fetchUsers();
-        //findMatchesForCurrentUser();
-        //displayCurrentUser();
     }
 
     private void fetchUsers() {
@@ -80,8 +78,8 @@ public class Cards extends AppCompatActivity {
                         userList.add(user);
                     }
 
-                    // Update the views after fetching the users
-                    displayCurrentUser();
+                    findMatchesForCurrentUser();  // Find matches for the current user
+                    displayCurrentUser();  // Update the views after fetching the users
                 }
             } else {
                 Exception exception = task.getException();
@@ -92,6 +90,7 @@ public class Cards extends AppCompatActivity {
             }
         });
     }
+
 
     private void getCurrentUser() {
         if (user != null) {
@@ -117,9 +116,6 @@ public class Cards extends AppCompatActivity {
                         ArrayList<String> interests = (ArrayList<String>) document.get("interests");
 
                         currentUser = new User(name, username, location, gender, age, imageUri, occupation, height, phone, interests);
-
-                        // Update the views after fetching the current user
-                        displayCurrentUser();
                     }
                 } else {
                     Exception exception = task.getException();
@@ -133,19 +129,24 @@ public class Cards extends AppCompatActivity {
     }
 
     private void displayCurrentUser() {
-        if (userList != null && userList.size() > 0 && currentUserIndex < userList.size()) {
+        if (matchedUsers != null && matchedUsers.size() > 0 && currentUserIndex < matchedUsers.size()) {
             // Get the current user from the userList
-            User currentMatch = userList.get(currentUserIndex);
+            User currentMatch = matchedUsers.get(currentUserIndex);
 
             // Update the views with the current user's data
             String imageUri = currentMatch.imageUri;
 
             if (imageUri != null) {
+                int widthInPixels = profile_img.getWidth();
+                int heightInPixels = profile_img.getHeight();
+
                 Glide.with(Cards.this)
                         .load(imageUri)
+                        .override(widthInPixels, heightInPixels)
                         .diskCacheStrategy(DiskCacheStrategy.ALL)
                         .into(profile_img);
             }
+
 
             String s_name = currentMatch.name;
             String s_age = currentMatch.age;
@@ -165,5 +166,6 @@ public class Cards extends AppCompatActivity {
     private void findMatchesForCurrentUser() {
         matchedUsers = User.findMatches(currentUser, userList);
     }
+
 
 }

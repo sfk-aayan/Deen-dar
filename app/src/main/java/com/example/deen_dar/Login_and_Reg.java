@@ -45,12 +45,12 @@ public class Login_and_Reg extends AppCompatActivity {
 
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
-        if (user != null && user.isEmailVerified()) {
-            Intent intent = new Intent(Login_and_Reg.this, Profile.class);
-            startActivity(intent);
-            finish();
-            return;
-        }
+//        if (user != null && user.isEmailVerified()) {
+//            Intent intent = new Intent(Login_and_Reg.this, Profile.class);
+//            startActivity(intent);
+//            finish();
+//            return;
+//        }
 
 
         setText("Welcome to Deen-dar, the Halal Tinder!");
@@ -89,7 +89,7 @@ public class Login_and_Reg extends AppCompatActivity {
     @Override
     public void onBackPressed(){
         //finishAffinity();
-        Intent i = new Intent(Login_and_Reg.this, Profile.class);
+        Intent i = new Intent(Login_and_Reg.this, Cards.class);
         startActivity(i);
     }
 

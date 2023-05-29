@@ -101,14 +101,14 @@ public class Profile extends AppCompatActivity {
             }
         });
 
-        logout_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                auth.signOut();
-                Intent i = new Intent(Profile.this, Login_and_Reg.class);
-                startActivity(i);
-                finish();
-            }
-        });
+//        logout_btn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                auth.signOut();
+//                Intent i = new Intent(Profile.this, Login_and_Reg.class);
+//                startActivity(i);
+//                finish();
+//            }
+//        });
     }
 }
