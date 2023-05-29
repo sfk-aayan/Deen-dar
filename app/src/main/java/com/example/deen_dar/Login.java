@@ -134,7 +134,7 @@ public class Login extends AppCompatActivity {
     @Override
     public void onBackPressed(){
         login_reg_title = findViewById(R.id.logo_name);
-
+      
         Intent i = new Intent(Login.this, Login_and_Reg.class);
         Pair[] pairs = new Pair[2];
         pairs[0] = new Pair<View, String>(logo, "logo_tr");
