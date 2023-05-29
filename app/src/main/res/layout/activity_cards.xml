@@ -116,42 +116,33 @@
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/textView8" />
 
-                        <androidx.constraintlayout.widget.ConstraintLayout
-                            android:id="@+id/constraintLayout2"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            app:layout_constraintBottom_toBottomOf="parent"
+                        <Button
+                            android:id="@+id/button2"
+                            android:layout_width="104dp"
+                            android:layout_height="49dp"
+                            android:backgroundTint="#e41b5c"
+                            android:fontFamily="@font/elmessiri_bold"
+                            android:text="لم يعجبنى"
+                            android:textColor="#fff"
+                            android:textSize="20sp"
+                            android:textStyle="bold"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toStartOf="@id/button"
+                            app:layout_constraintTop_toBottomOf="@id/interests" />
+
+                        <Button
+                            android:id="@+id/button"
+                            android:layout_width="104dp"
+                            android:layout_height="49dp"
+                            android:backgroundTint="#00BFA6"
+                            android:fontFamily="@font/elmessiri_bold"
+                            android:text="يحب"
+                            android:textColor="#fff"
+                            android:textSize="20sp"
+                            android:textStyle="bold"
                             app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintHorizontal_bias="0.0"
-                            app:layout_constraintStart_toStartOf="parent">
-
-
-                            <Button
-                                android:id="@+id/button2"
-                                android:layout_width="104dp"
-                                android:layout_height="49dp"
-                                android:backgroundTint="#e41b5c"
-                                android:fontFamily="@font/elmessiri_bold"
-                                android:text="لم يعجبنى"
-                                android:textColor="#fff"
-                                android:textSize="20sp"
-                                android:textStyle="bold"
-                                tools:layout_editor_absoluteX="62dp"
-                                tools:layout_editor_absoluteY="585dp" />
-
-                            <Button
-                                android:id="@+id/button"
-                                android:layout_width="104dp"
-                                android:layout_height="49dp"
-                                android:backgroundTint="#00BFA6"
-                                android:fontFamily="@font/elmessiri_bold"
-                                android:text="يحب"
-                                android:textColor="#fff"
-                                android:textSize="20sp"
-                                android:textStyle="bold"
-                                tools:layout_editor_absoluteX="239dp"
-                                tools:layout_editor_absoluteY="585dp" />
-                        </androidx.constraintlayout.widget.ConstraintLayout>
+                            app:layout_constraintStart_toEndOf="@+id/button2"
+                            app:layout_constraintTop_toBottomOf="@id/interests" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </LinearLayout>
 
@@ -168,6 +159,8 @@
         android:background="#34009688"
         android:orientation="horizontal"
         android:paddingTop="5dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="@+id/scrollView4">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -182,6 +175,8 @@
                 android:layout_marginEnd="351dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:srcCompat="@drawable/choosing" />
 
             <ImageView
@@ -190,6 +185,8 @@
                 android:layout_height="42dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:srcCompat="@drawable/heart" />
 
             <ImageView
@@ -199,6 +196,8 @@
                 android:layout_marginStart="260dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:srcCompat="@drawable/user" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

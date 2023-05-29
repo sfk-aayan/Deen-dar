@@ -15,7 +15,7 @@
         android:theme="@style/Theme.Deendar"
         tools:targetApi="31">
         <activity
-            android:name=".match"
+            android:name=".Match"
             android:exported="false" />
         <activity
             android:name=".Cards"
