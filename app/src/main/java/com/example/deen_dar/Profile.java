@@ -54,7 +54,7 @@ public class Profile extends AppCompatActivity {
         documentRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
-                String name = documentSnapshot.getString("name");
+                String name = documentSnapshot.getString("fullname");
                 String age = documentSnapshot.getString("age");
                 String location = documentSnapshot.getString("location");
                 String gender = documentSnapshot.getString("gender");
