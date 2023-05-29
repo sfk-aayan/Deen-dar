@@ -43,15 +43,14 @@ public class Login_and_Reg extends AppCompatActivity {
         fade_in_anim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_in);
         logo = findViewById(R.id.imageView);
 
-//        auth = FirebaseAuth.getInstance();
-//        auth.signOut();
-//        user = auth.getCurrentUser();
-//        if (user != null && user.isEmailVerified()) {
-//            Intent intent = new Intent(Login_and_Reg.this, Profile.class);
-//            startActivity(intent);
-//            finish();
-//            return;
-//        }
+        auth = FirebaseAuth.getInstance();
+        user = auth.getCurrentUser();
+        if (user != null && user.isEmailVerified()) {
+            Intent intent = new Intent(Login_and_Reg.this, Profile.class);
+            startActivity(intent);
+            finish();
+            return;
+        }
 
 
         setText("Welcome to Deen-dar, the Halal Tinder!");
@@ -90,7 +89,7 @@ public class Login_and_Reg extends AppCompatActivity {
     @Override
     public void onBackPressed(){
         //finishAffinity();
-        Intent i = new Intent(Login_and_Reg.this, Cards.class);
+        Intent i = new Intent(Login_and_Reg.this, Profile.class);
         startActivity(i);
     }
 
