@@ -47,7 +47,7 @@ public class ProfileSetup extends AppCompatActivity {
     private CheckBox chkRead, chkCook, chkSport, chkWrite, chkTravel, chkQuran;
 
     private Uri selectedImageUri;
-    String username, fullname, gender;
+    String gender;
     private FirebaseAuth auth;
     private FirebaseFirestore firestore;
     private List<String> interests;
@@ -58,11 +58,7 @@ public class ProfileSetup extends AppCompatActivity {
         setContentView(R.layout.activity_profile_setup);
 
 
-        Intent intent = getIntent();
         interests = new ArrayList<>();
-        username = intent.getStringExtra("username");
-        fullname = intent.getStringExtra("fullname");
-
         auth = FirebaseAuth.getInstance();
         firestore = FirebaseFirestore.getInstance();
 
@@ -240,14 +236,12 @@ public class ProfileSetup extends AppCompatActivity {
                                 profileData.put("height", s_height);
                                 profileData.put("phone", s_phone);
                                 profileData.put("occupation", s_occupation);
-                                profileData.put("username", username);
-                                profileData.put("fullname", fullname);
                                 profileData.put("gender", gender);
                                 profileData.put("image_url", imageUrl);
                                 profileData.put("interests", interests);
 
                                 firestore.collection("Users").document(userId)
-                                        .set(profileData)
+                                        .update(profileData)
                                         .addOnCompleteListener(new OnCompleteListener<Void>() {
                                             @Override
                                             public void onComplete(@NonNull Task<Void> task) {

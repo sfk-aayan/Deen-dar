@@ -89,7 +89,9 @@ public class Login_and_Reg extends AppCompatActivity {
 
     @Override
     public void onBackPressed(){
-        finishAffinity();
+        //finishAffinity();
+        Intent i = new Intent(Login_and_Reg.this, Cards.class);
+        startActivity(i);
     }
 
     public void setText(final String s)
