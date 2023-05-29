@@ -62,6 +62,7 @@ public class Cards extends AppCompatActivity {
                     userList = new ArrayList<>();
 
                     for (QueryDocumentSnapshot document : querySnapshot) {
+                        // Parse user data and add it to the userList
                         String name = document.getString("fullname");
                         String username = document.getString("username");
                         String location = document.getString("location");
@@ -77,8 +78,8 @@ public class Cards extends AppCompatActivity {
                         userList.add(user);
                     }
 
-                    findMatchesForCurrentUser();
-                    displayCurrentUser();
+                    findMatchesForCurrentUser();  // Find matches for the current user
+                    displayCurrentUser();  // Update the views after fetching the users
                 }
             } else {
                 Exception exception = task.getException();
@@ -102,6 +103,7 @@ public class Cards extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     if (document != null && document.exists()) {
+                        // Parse current user data
                         String name = document.getString("fullname");
                         String username = document.getString("username");
                         String location = document.getString("location");
@@ -128,8 +130,10 @@ public class Cards extends AppCompatActivity {
 
     private void displayCurrentUser() {
         if (matchedUsers != null && matchedUsers.size() > 0 && currentUserIndex < matchedUsers.size()) {
+            // Get the current user from the userList
             User currentMatch = matchedUsers.get(currentUserIndex);
 
+            // Update the views with the current user's data
             String imageUri = currentMatch.imageUri;
 
             if (imageUri != null) {
