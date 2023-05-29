@@ -43,9 +43,8 @@ public class Login_and_Reg extends AppCompatActivity {
         fade_in_anim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_in);
         logo = findViewById(R.id.imageView);
 
-//        auth = FirebaseAuth.getInstance();
-//        auth.signOut();
-//        user = auth.getCurrentUser();
+        auth = FirebaseAuth.getInstance();
+        user = auth.getCurrentUser();
 //        if (user != null && user.isEmailVerified()) {
 //            Intent intent = new Intent(Login_and_Reg.this, Profile.class);
 //            startActivity(intent);
@@ -89,7 +88,9 @@ public class Login_and_Reg extends AppCompatActivity {
 
     @Override
     public void onBackPressed(){
-        finishAffinity();
+        //finishAffinity();
+        Intent i = new Intent(Login_and_Reg.this, Cards.class);
+        startActivity(i);
     }
 
     public void setText(final String s)

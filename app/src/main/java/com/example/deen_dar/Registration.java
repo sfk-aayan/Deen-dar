@@ -17,6 +17,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.FirebaseApp;
@@ -26,7 +28,11 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 public class Registration extends AppCompatActivity {
@@ -126,16 +132,37 @@ public class Registration extends AppCompatActivity {
                     Toast.makeText(Registration.this, "User created successfully!", Toast.LENGTH_LONG).show();
                     FirebaseUser firebaseUser = auth.getCurrentUser();
 
+                    if (firebaseUser != null) {
+                        String userId = firebaseUser.getUid();
+                        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+                        DocumentReference userRef = db.collection("Users").document(userId);
+
+                        Map<String, Object> user = new HashMap<>();
+                        user.put("username", s_username);
+                        user.put("fullname", s_fullname);
+
+                        userRef.set(user)
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        Log.d(TAG, "User Information stored successfully in Firestore.");
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Log.e(TAG, "Error storing user Information in Firestore.", e);
+                                    }
+                                });
+                    }
+
                     firebaseUser.sendEmailVerification();
                     Intent i = new Intent(Registration.this, VerificationCompletion.class);
                     Pair[] pairs = new Pair[1];
                     pairs[0] = new Pair<View, String>(logo, "logo_tr");
 
-                    i.putExtra("username", s_username);
-                    i.putExtra("fullname", s_fullname);
-
                     i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-
                     ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(Registration.this, pairs);
                     startActivity(i, options.toBundle());
                 }

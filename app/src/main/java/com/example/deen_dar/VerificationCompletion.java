@@ -47,14 +47,7 @@ public class VerificationCompletion extends AppCompatActivity {
                             if (task.isSuccessful()) {
                                 currentUser = auth.getCurrentUser();
                                 if (currentUser.isEmailVerified()) {
-                                    Intent intent = getIntent();
-                                    String s_username = intent.getStringExtra("username");
-                                    String s_fullname = intent.getStringExtra("fullname");
-
-                                    Intent i = new Intent(VerificationCompletion.this, Profile.class);
-                                    i.putExtra("username", s_username);
-                                    i.putExtra("fullname", s_fullname);
-
+                                    Intent i = new Intent(VerificationCompletion.this, ProfileSetup.class);
                                     startActivity(i);
                                     finish();
                                 } else {

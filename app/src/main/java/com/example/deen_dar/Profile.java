@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -24,6 +25,7 @@ public class Profile extends AppCompatActivity {
 
     private TextView name_age, location, gender, height, phone, occupation, interests;
     private ImageView profilePic, matchesImg, matchingImg, profileImg;
+    private Button logout_btn;
     private FirebaseFirestore db;
     private FirebaseAuth auth;
 
@@ -44,6 +46,7 @@ public class Profile extends AppCompatActivity {
         matchingImg = findViewById(R.id.matching_img);
         matchesImg = findViewById(R.id.matches_img);
         profileImg = findViewById(R.id.profile_img);
+        logout_btn = findViewById(R.id.button5);
 
         auth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
@@ -54,7 +57,7 @@ public class Profile extends AppCompatActivity {
         documentRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
-                String name = documentSnapshot.getString("name");
+                String name = documentSnapshot.getString("fullname");
                 String age = documentSnapshot.getString("age");
                 String location = documentSnapshot.getString("location");
                 String gender = documentSnapshot.getString("gender");
@@ -97,5 +100,15 @@ public class Profile extends AppCompatActivity {
                 startActivity(i);
             }
         });
+
+//        logout_btn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                auth.signOut();
+//                Intent i = new Intent(Profile.this, Login_and_Reg.class);
+//                startActivity(i);
+//                finish();
+//            }
+//        });
     }
 }
