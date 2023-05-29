@@ -80,7 +80,7 @@
                             app:layout_constraintHorizontal_bias="0.494"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
-                            app:srcCompat="@drawable/sample_card_image" />
+                            app:srcCompat="@drawable/user" />
 
                         <TextView
                             android:id="@+id/textView8"
@@ -89,7 +89,7 @@
                             android:layout_marginTop="468dp"
                             android:backgroundTint="#000000"
                             android:foregroundTint="#000000"
-                            android:text="Aadila Janna, 26"
+                            android:text="Full Name, age"
                             android:textAppearance="@style/TextAppearance.AppCompat.Display1"
                             android:textColor="#f9eacb"
                             android:textColorHighlight="#000000"
@@ -107,7 +107,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="9dp"
                             android:gravity="center_horizontal"
-                            android:text="Travel | Reading"
+                            android:text="interest | interest"
                             android:textAlignment="center"
                             android:textColor="@color/white"
                             android:textSize="20sp"
@@ -146,10 +146,13 @@
                             app:layout_constraintTop_toBottomOf="@+id/textView9" />
 
                         <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/constraintLayout2"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            tools:layout_editor_absoluteX="0dp"
-                            tools:layout_editor_absoluteY="-16dp">
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.0"
+                            app:layout_constraintStart_toStartOf="parent">
 
 
                         </androidx.constraintlayout.widget.ConstraintLayout>
