@@ -2,6 +2,7 @@ package com.example.deen_dar;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.GestureDetector;
@@ -35,7 +36,7 @@ public class Cards extends AppCompatActivity {
     private FirebaseAuth auth;
     private FirebaseUser user;
 
-    private ImageView profile_img;
+    private ImageView profile_img, profile_nav, matching_nav, matches_nav;
     private TextView name_age;
     private TextView interests;
     Button like, dislike;
@@ -52,6 +53,9 @@ public class Cards extends AppCompatActivity {
         linear_gesture = findViewById(R.id.linear_gesture);
         like = findViewById(R.id.button);
         dislike = findViewById(R.id.button2);
+        profile_nav = findViewById(R.id.imageView10);
+        matching_nav = findViewById(R.id.imageView2);
+        matches_nav = findViewById(R.id.imageView9);
 
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
@@ -83,6 +87,30 @@ public class Cards extends AppCompatActivity {
             public void onClick(View v) {
                 currentUserIndex++;
                 displayCurrentUser();
+            }
+        });
+
+        profile_nav.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Handle profile_nav click
+                Intent intent = new Intent(Cards.this, Profile.class);
+                startActivity(intent);
+            }
+        });
+
+        matching_nav.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(Cards.this, "You are already in Matching!", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        matches_nav.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Cards.this, Match.class);
+                startActivity(intent);
             }
         });
     }

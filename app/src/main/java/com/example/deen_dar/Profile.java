@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -43,8 +44,8 @@ public class Profile extends AppCompatActivity {
         interests = findViewById(R.id.interests);
         profilePic = findViewById(R.id.imageView4);
 
-        matchingImg = findViewById(R.id.matching_img);
-        matchesImg = findViewById(R.id.matches_img);
+        matchingImg = findViewById(R.id.imageView2);
+        matchesImg = findViewById(R.id.matching_img);
         profileImg = findViewById(R.id.profile_img);
         logout_btn = findViewById(R.id.button5);
 
@@ -96,8 +97,23 @@ public class Profile extends AppCompatActivity {
         matchingImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(Profile.this, Login_and_Reg.class);
+                Intent i = new Intent(Profile.this, Cards.class);
                 startActivity(i);
+            }
+        });
+
+        profileImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(Profile.this, "You are already in Profile!", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        matchesImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Profile.this, Match.class);
+                startActivity(intent);
             }
         });
 
