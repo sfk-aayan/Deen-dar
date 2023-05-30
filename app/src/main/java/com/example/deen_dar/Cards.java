@@ -4,14 +4,17 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.RequestOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
@@ -35,6 +38,9 @@ public class Cards extends AppCompatActivity {
     private ImageView profile_img;
     private TextView name_age;
     private TextView interests;
+    Button like, dislike;
+    private LinearLayout linear_gesture;
+    private GestureDetector gestureDetector;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,12 +49,42 @@ public class Cards extends AppCompatActivity {
         profile_img = findViewById(R.id.imageView7);
         name_age = findViewById(R.id.textView8);
         interests = findViewById(R.id.interests);
+        linear_gesture = findViewById(R.id.linear_gesture);
+        like = findViewById(R.id.button);
+        dislike = findViewById(R.id.button2);
 
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
 
+        gestureDetector = new GestureDetector(this, new SwipeGestureListener());
+
+        linear_gesture.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                gestureDetector.onTouchEvent(event);
+                return true;
+            }
+        });
+
         getCurrentUser();
         fetchUsers();
+
+        like.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(Cards.this, "Matched with " + currentUser.name, Toast.LENGTH_SHORT).show();
+                currentUserIndex++;
+                displayCurrentUser();
+            }
+        });
+
+        dislike.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                currentUserIndex++;
+                displayCurrentUser();
+            }
+        });
     }
 
     private void fetchUsers() {
@@ -161,11 +197,51 @@ public class Cards extends AppCompatActivity {
                 Cards.this.interests.setText("No interests given.");
             }
         }
+        else{
+            Toast.makeText(Cards.this, "No more users found", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void findMatchesForCurrentUser() {
         matchedUsers = User.findMatches(currentUser, userList);
     }
 
+    private void onSwipeRight() {
+        // Handle swipe right action
+        Toast.makeText(this, "Matched with " + currentUser.name, Toast.LENGTH_SHORT).show();
+        currentUserIndex++;
+        displayCurrentUser();
+    }
+
+    private void onSwipeLeft() {
+        // Handle swipe left action
+        currentUserIndex++;
+        displayCurrentUser();
+    }
+
+    private class SwipeGestureListener extends GestureDetector.SimpleOnGestureListener {
+        private static final int SWIPE_THRESHOLD = 100;
+        private static final int SWIPE_VELOCITY_THRESHOLD = 100;
+
+        @Override
+        public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+            boolean result = false;
+            float diffX = e2.getX() - e1.getX();
+            float diffY = e2.getY() - e1.getY();
+
+            if (Math.abs(diffX) > Math.abs(diffY) &&
+                    Math.abs(diffX) > SWIPE_THRESHOLD &&
+                    Math.abs(velocityX) > SWIPE_VELOCITY_THRESHOLD) {
+                if (diffX > 0) {
+                    onSwipeRight();
+                } else {
+                    onSwipeLeft();
+                }
+                result = true;
+            }
+
+            return result;
+        }
+    }
 
 }

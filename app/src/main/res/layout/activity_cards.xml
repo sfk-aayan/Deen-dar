@@ -22,6 +22,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="800dp">
 
+
                 <ImageView
                     android:id="@+id/imageView3"
                     android:layout_width="90dp"
@@ -59,6 +60,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/Name" />
 
                 <LinearLayout
+                    android:id="@+id/linear_gesture"
                     android:layout_width="match_parent"
                     android:layout_height="634dp"
                     android:layout_marginTop="30dp"
@@ -67,8 +69,10 @@
                     app:layout_constraintTop_toBottomOf="@+id/textView6">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/ct"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
+
 
                         <ImageView
                             android:id="@+id/imageView7"
@@ -143,15 +147,19 @@
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toEndOf="@+id/button2"
                             app:layout_constraintTop_toBottomOf="@id/interests" />
+
                     </androidx.constraintlayout.widget.ConstraintLayout>
+
                 </LinearLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
+
 
         </LinearLayout>
 
 
     </ScrollView>
+
 
     <LinearLayout
         android:layout_width="411dp"
