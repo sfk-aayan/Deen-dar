@@ -24,8 +24,11 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.SetOptions;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Cards extends AppCompatActivity {
     private ArrayList<User> userList;
@@ -61,6 +64,7 @@ public class Cards extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
         db = FirebaseFirestore.getInstance();
+        matchList = new ArrayList<>();
 
         gestureDetector = new GestureDetector(this, new SwipeGestureListener());
 
@@ -78,11 +82,56 @@ public class Cards extends AppCompatActivity {
         like.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(matchedUsers != null && matchedUsers.size() > 0 && currentUserIndex < matchedUsers.size()){
                 Toast.makeText(Cards.this, "Matched with " + currentUser.name, Toast.LENGTH_SHORT).show();
+                matchList.add(matchedUsers.get(currentUserIndex).name);
                 currentUserIndex++;
                 displayCurrentUser();
+
+                String userId = user.getUid();
+
+                DocumentReference userRef = db.collection("Users").document(userId);
+
+                Map<String, Object> updateData = new HashMap<>();
+                updateData.put("matchList", matchList);
+
+                userRef.get().addOnCompleteListener(getTask -> {
+                    if (getTask.isSuccessful()) {
+                        DocumentSnapshot document = getTask.getResult();
+                        if (document.exists() && document.contains("matchList")) {
+                            userRef.update(updateData)
+                                    .addOnCompleteListener(updateTask -> {
+                                        if (updateTask.isSuccessful()) {
+                                            // Update operation successful
+                                            // Handle any additional logic here
+                                        } else {
+                                            // Update operation failed
+                                            // Handle the error here
+                                        }
+                                    });
+                        } else {
+                            userRef.set(updateData, SetOptions.merge())
+                                    .addOnCompleteListener(setTask -> {
+                                        if (setTask.isSuccessful()) {
+                                            // Set operation successful
+                                            // Handle any additional logic here
+                                        } else {
+                                            // Set operation failed
+                                            // Handle the error here
+                                        }
+                                    });
+                        }
+                    } else {
+                        // Error fetching document
+                        // Handle the error here
+                    }
+                });}
+                else {
+                    Toast.makeText(Cards.this, "No more users found", Toast.LENGTH_SHORT).show();
+                }
             }
         });
+
 
         dislike.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -245,10 +294,53 @@ public class Cards extends AppCompatActivity {
     }
 
     private void onSwipeRight() {
-        // Handle swipe right action
-        Toast.makeText(this, "Matched with " + currentUser.name, Toast.LENGTH_SHORT).show();
-        currentUserIndex++;
-        displayCurrentUser();
+        if(matchedUsers != null && matchedUsers.size() > 0 && currentUserIndex < matchedUsers.size()){
+            Toast.makeText(Cards.this, "Matched with " + currentUser.name, Toast.LENGTH_SHORT).show();
+            matchList.add(matchedUsers.get(currentUserIndex).name);
+            currentUserIndex++;
+            displayCurrentUser();
+
+            String userId = user.getUid();
+
+            DocumentReference userRef = db.collection("Users").document(userId);
+
+            Map<String, Object> updateData = new HashMap<>();
+            updateData.put("matchList", matchList);
+
+            userRef.get().addOnCompleteListener(getTask -> {
+                if (getTask.isSuccessful()) {
+                    DocumentSnapshot document = getTask.getResult();
+                    if (document.exists() && document.contains("matchList")) {
+                        userRef.update(updateData)
+                                .addOnCompleteListener(updateTask -> {
+                                    if (updateTask.isSuccessful()) {
+                                        // Update operation successful
+                                        // Handle any additional logic here
+                                    } else {
+                                        // Update operation failed
+                                        // Handle the error here
+                                    }
+                                });
+                    } else {
+                        userRef.set(updateData, SetOptions.merge())
+                                .addOnCompleteListener(setTask -> {
+                                    if (setTask.isSuccessful()) {
+                                        // Set operation successful
+                                        // Handle any additional logic here
+                                    } else {
+                                        // Set operation failed
+                                        // Handle the error here
+                                    }
+                                });
+                    }
+                } else {
+                    // Error fetching document
+                    // Handle the error here
+                }
+            });}
+        else {
+            Toast.makeText(Cards.this, "No more users found", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void onSwipeLeft() {
