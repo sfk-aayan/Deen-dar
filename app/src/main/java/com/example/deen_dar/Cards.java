@@ -30,6 +30,7 @@ import java.util.ArrayList;
 public class Cards extends AppCompatActivity {
     private ArrayList<User> userList;
     private ArrayList<User> matchedUsers;
+    private ArrayList<String> matchList;
     private int currentUserIndex = 0;
     private User currentUser;
     private FirebaseFirestore db;
@@ -59,6 +60,7 @@ public class Cards extends AppCompatActivity {
 
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
+        db = FirebaseFirestore.getInstance();
 
         gestureDetector = new GestureDetector(this, new SwipeGestureListener());
 
@@ -116,7 +118,7 @@ public class Cards extends AppCompatActivity {
     }
 
     private void fetchUsers() {
-        db = FirebaseFirestore.getInstance();
+
         CollectionReference usersCollectionRef = db.collection("Users");
 
         usersCollectionRef.get().addOnCompleteListener(task -> {
@@ -143,7 +145,10 @@ public class Cards extends AppCompatActivity {
                     }
 
                     findMatchesForCurrentUser();  // Find matches for the current user
-                    displayCurrentUser();  // Update the views after fetching the users
+                    if(!matchedUsers.isEmpty())
+                        displayCurrentUser();  // Update the views after fetching the users
+                    else
+                        Toast.makeText(Cards.this, "Loading Matched Users!", Toast.LENGTH_SHORT).show();
                 }
             } else {
                 Exception exception = task.getException();
@@ -160,14 +165,12 @@ public class Cards extends AppCompatActivity {
         if (user != null) {
             String userId = user.getUid();
 
-            FirebaseFirestore db = FirebaseFirestore.getInstance();
             DocumentReference userRef = db.collection("Users").document(userId);
 
             userRef.get().addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     if (document != null && document.exists()) {
-                        // Parse current user data
                         String name = document.getString("fullname");
                         String username = document.getString("username");
                         String location = document.getString("location");
@@ -231,7 +234,14 @@ public class Cards extends AppCompatActivity {
     }
 
     private void findMatchesForCurrentUser() {
-        matchedUsers = User.findMatches(currentUser, userList);
+        if(currentUser != null){
+            matchedUsers = User.findMatches(currentUser, userList);
+        }
+        else {
+            Toast.makeText(Cards.this, "Loading Users!", Toast.LENGTH_SHORT).show();
+            Intent i = new Intent(Cards.this, Cards.class);
+            startActivity(i);
+        }
     }
 
     private void onSwipeRight() {
