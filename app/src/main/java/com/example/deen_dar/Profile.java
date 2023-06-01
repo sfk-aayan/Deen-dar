@@ -25,7 +25,7 @@ import java.util.List;
 public class Profile extends AppCompatActivity {
 
     private TextView name_age, location, gender, height, phone, occupation, interests;
-    private ImageView profilePic, matchesImg, matchingImg, profileImg;
+    private ImageView profilePic, matchesImg, matchingImg, profileImg, matches_icon;
     private Button logout_btn;
     private FirebaseFirestore db;
     private FirebaseAuth auth;
@@ -44,6 +44,7 @@ public class Profile extends AppCompatActivity {
         interests = findViewById(R.id.interests);
         profilePic = findViewById(R.id.imageView4);
 
+        matches_icon = findViewById(R.id.matches_img);
         matchingImg = findViewById(R.id.imageView2);
         matchesImg = findViewById(R.id.matching_img);
         profileImg = findViewById(R.id.profile_img);
@@ -102,6 +103,14 @@ public class Profile extends AppCompatActivity {
             }
         });
 
+        matches_icon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(Profile.this, Match.class);
+                startActivity(i);
+            }
+        });
+
         profileImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -117,14 +126,14 @@ public class Profile extends AppCompatActivity {
             }
         });
 
-//        logout_btn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                auth.signOut();
-//                Intent i = new Intent(Profile.this, Login_and_Reg.class);
-//                startActivity(i);
-//                finish();
-//            }
-//        });
+        logout_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                auth.signOut();
+                Intent i = new Intent(Profile.this, Login_and_Reg.class);
+                startActivity(i);
+                finish();
+            }
+        });
     }
 }

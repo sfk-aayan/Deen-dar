@@ -4,34 +4,30 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import android.net.Uri;
 import java.util.ArrayList;
-import java.util.List;
 
 public class Match extends AppCompatActivity {
     private ImageView matching_nav, matches_nav, profile_nav;
@@ -204,11 +200,65 @@ public class Match extends AppCompatActivity {
                 Match.this.interests.setText("No interests given.");
             }
 
+            final String phoneNumber = user.phone;
+
+            phone.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // Open the dialer with the phone number
+                    Intent dialerIntent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + phoneNumber));
+                    startActivity(dialerIntent);
+                }
+            });
+
+            location.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String locationText = location.getText().toString();
+
+                    // Check if Google Maps app is installed
+                    boolean isGoogleMapsInstalled = isAppInstalled("com.google.android.apps.maps");
+
+                    if (isGoogleMapsInstalled) {
+                        // Open location in Google Maps
+                        Uri locationUri = Uri.parse("geo:0,0?q=" + locationText);
+                        Intent mapIntent = new Intent(Intent.ACTION_VIEW, locationUri);
+                        mapIntent.setPackage("com.google.android.apps.maps");
+
+                        if (mapIntent.resolveActivity(getPackageManager()) != null) {
+                            startActivity(mapIntent);
+                        } else {
+                            // Fallback: Open location in web browser
+                            openLocationInBrowser(locationText);
+                        }
+                    } else {
+                        // Fallback: Open location in web browser
+                        openLocationInBrowser(locationText);
+                    }
+                }
+            });
+
+
+
             // Add the user item view to the match_items_container
             matchItemsContainer.addView(userItemView);
         }
     }
 
+    private boolean isAppInstalled(String packageName) {
+        PackageManager pm = getPackageManager();
+        try {
+            pm.getPackageInfo(packageName, PackageManager.GET_ACTIVITIES);
+            return true;
+        } catch (PackageManager.NameNotFoundException e) {
+            return false;
+        }
+    }
 
+    private void openLocationInBrowser(String location) {
+        Uri locationUri = Uri.parse("https://www.google.com/maps/search/?api=1&query=" + location);
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW, locationUri);
+        startActivity(browserIntent);
+    }
 
 }
