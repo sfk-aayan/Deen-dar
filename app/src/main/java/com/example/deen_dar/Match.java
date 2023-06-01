@@ -39,6 +39,7 @@ public class Match extends AppCompatActivity {
     private TextView name, location, phone, interests, gender;
     private ImageView profile_img;
     boolean check;
+    private String currentUserName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,6 +94,7 @@ public class Match extends AppCompatActivity {
                             DocumentSnapshot userDocument = task.getResult();
                             if (userDocument.exists()) {
                                 ArrayList<String> fetchedMatchList = (ArrayList<String>) userDocument.get("matchList");
+                                currentUserName = userDocument.get("fullname").toString();
                                 if (fetchedMatchList != null && !fetchedMatchList.isEmpty()) {
                                     matchList.clear(); // Clear the existing list before adding new elements
                                     matchList.addAll(fetchedMatchList); // Add all elements from fetchedMatchList
@@ -141,8 +143,14 @@ public class Match extends AppCompatActivity {
                             String phone = document.getString("phone");
                             ArrayList<String> interests = (ArrayList<String>) document.get("interests");
 
-                            User user = new User(name, username, location, gender, age, occupation, height, phone, imageUri, interests);
-                            likedUsers.add(user);
+                            if (document.contains("matchList")) {
+                                ArrayList<String> fetchedMatchList = (ArrayList<String>) document.get("matchList");
+                                // Check if the current user is present in the fetched match list
+                                if (fetchedMatchList != null && fetchedMatchList.contains(currentUserName)) {
+                                    User user = new User(name, username, location, gender, age, occupation, height, phone, imageUri, interests);
+                                    likedUsers.add(user);
+                                }
+                            }
                         }
                         showcaseData();
                     } else {
@@ -161,7 +169,7 @@ public class Match extends AppCompatActivity {
 
         if (likedUsers.isEmpty()) {
             // Handle the case when there are no liked users
-            Toast.makeText(Match.this, "Failed to fetch Liked Users!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(Match.this, "No Liked Users!", Toast.LENGTH_SHORT).show();
             return;
         }
 
