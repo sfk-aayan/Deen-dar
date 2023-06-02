@@ -15,7 +15,7 @@
         android:theme="@style/Theme.Deendar"
         tools:targetApi="31">
         <activity
-            android:name=".noMoreMatch"
+            android:name=".NoMoreMatch"
             android:exported="false" />
         <activity
             android:name=".Match"

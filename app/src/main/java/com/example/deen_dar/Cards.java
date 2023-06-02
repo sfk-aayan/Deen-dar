@@ -2,7 +2,9 @@ package com.example.deen_dar;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.GestureDetector;
@@ -28,13 +30,16 @@ import com.google.firebase.firestore.SetOptions;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 public class Cards extends AppCompatActivity {
     private ArrayList<User> userList;
     private ArrayList<User> matchedUsers;
+    private ArrayList<User> copyUsers;
     private ArrayList<String> matchList;
-    private int currentUserIndex = 0;
+    private int currentUserIndex;
     private User currentUser;
     private FirebaseFirestore db;
     private FirebaseAuth auth;
@@ -46,6 +51,9 @@ public class Cards extends AppCompatActivity {
     Button like, dislike;
     private LinearLayout linear_gesture;
     private GestureDetector gestureDetector;
+    private SharedPreferences sharedPreferences;
+    private Set<String> matchedUserNames;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,8 +73,19 @@ public class Cards extends AppCompatActivity {
         user = auth.getCurrentUser();
         db = FirebaseFirestore.getInstance();
         matchList = new ArrayList<>();
+        copyUsers = new ArrayList<>();
 
         gestureDetector = new GestureDetector(this, new SwipeGestureListener());
+        sharedPreferences = getSharedPreferences("matchedUsers", Context.MODE_PRIVATE);
+        // Retrieve the value of currentUserIndex from SharedPreferences
+        currentUserIndex = sharedPreferences.getInt("currentUserIndex", 0);
+
+
+        //Debug Code
+//        SharedPreferences.Editor editor = sharedPreferences.edit();
+//        editor.remove("matchedUsers");
+//        editor.remove("currentUserIndex");
+//        editor.apply();
 
         linear_gesture.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -82,51 +101,54 @@ public class Cards extends AppCompatActivity {
         like.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(matchedUsers != null && matchedUsers.size() > 0 && currentUserIndex < matchedUsers.size()){
-                Toast.makeText(Cards.this, "Matched with " + currentUser.name, Toast.LENGTH_SHORT).show();
-                matchList.add(matchedUsers.get(currentUserIndex).name);
-                currentUserIndex++;
-                displayCurrentUser();
+                if (matchedUsers != null && matchedUsers.size() > 0 && currentUserIndex < matchedUsers.size()) {
+                    Toast.makeText(Cards.this, "Matched with " + currentUser.name, Toast.LENGTH_SHORT).show();
 
-                String userId = user.getUid();
+                    //store data locally
+                    String matchedUserName = matchedUsers.get(currentUserIndex).name;
+                    matchedUserNames.add(matchedUserName);
+                    sharedPreferences.edit().putStringSet("matchedUsers", matchedUserNames).apply();
 
-                DocumentReference userRef = db.collection("Users").document(userId);
+                    String userId = user.getUid();
+                    DocumentReference userRef = db.collection("Users").document(userId);
 
-                Map<String, Object> updateData = new HashMap<>();
-                updateData.put("matchList", matchList);
+                    userRef.get().addOnCompleteListener(getTask -> {
+                        if (getTask.isSuccessful()) {
+                            DocumentSnapshot document = getTask.getResult();
+                            if (document.exists()) {
+                                ArrayList<String> matchList = (ArrayList<String>) document.get("matchList");
+                                if (matchList == null) {
+                                    matchList = new ArrayList<>();
+                                }
 
-                userRef.get().addOnCompleteListener(getTask -> {
-                    if (getTask.isSuccessful()) {
-                        DocumentSnapshot document = getTask.getResult();
-                        if (document.exists() && document.contains("matchList")) {
-                            userRef.update(updateData)
-                                    .addOnCompleteListener(updateTask -> {
-                                        if (updateTask.isSuccessful()) {
-                                            // Update operation successful
-                                            // Handle any additional logic here
-                                        } else {
-                                            // Update operation failed
-                                            // Handle the error here
-                                        }
-                                    });
+                                matchList.add(matchedUserName);
+
+                                Map<String, Object> updateData = new HashMap<>();
+                                updateData.put("matchList", matchList);
+
+                                userRef.set(updateData, SetOptions.merge())
+                                        .addOnCompleteListener(setTask -> {
+                                            if (setTask.isSuccessful()) {
+                                                // Update operation successful
+                                                // Handle any additional logic here
+                                            } else {
+                                                // Update operation failed
+                                                // Handle the error here
+                                            }
+                                        });
+                            } else {
+                                // Document doesn't exist
+                                // Handle the error here
+                            }
                         } else {
-                            userRef.set(updateData, SetOptions.merge())
-                                    .addOnCompleteListener(setTask -> {
-                                        if (setTask.isSuccessful()) {
-                                            // Set operation successful
-                                            // Handle any additional logic here
-                                        } else {
-                                            // Set operation failed
-                                            // Handle the error here
-                                        }
-                                    });
+                            // Error fetching document
+                            // Handle the error here
                         }
-                    } else {
-                        // Error fetching document
-                        // Handle the error here
-                    }
-                });}
-                else {
+                    });
+
+                    currentUserIndex++;
+                    displayCurrentUser();
+                } else {
                     Toast.makeText(Cards.this, "No more users found", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -136,6 +158,10 @@ public class Cards extends AppCompatActivity {
         dislike.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //Store data locally
+                String matchedUserName = matchedUsers.get(currentUserIndex).name;
+                matchedUserNames.add(matchedUserName);
+                sharedPreferences.edit().putStringSet("matchedUsers", matchedUserNames).apply();
                 currentUserIndex++;
                 displayCurrentUser();
             }
@@ -194,10 +220,12 @@ public class Cards extends AppCompatActivity {
                     }
 
                     findMatchesForCurrentUser();  // Find matches for the current user
-                    if(!matchedUsers.isEmpty())
+                    if(!matchedUsers.isEmpty() && matchedUsers != null)
                         displayCurrentUser();  // Update the views after fetching the users
-                    else
-                        Toast.makeText(Cards.this, "Loading Matched Users!", Toast.LENGTH_SHORT).show();
+                    else {
+                        Intent i = new Intent(Cards.this, NoMoreMatch.class);
+                        startActivity(i);
+                    }
                 }
             } else {
                 Exception exception = task.getException();
@@ -278,13 +306,27 @@ public class Cards extends AppCompatActivity {
             }
         }
         else{
-            Toast.makeText(Cards.this, "No more users found", Toast.LENGTH_SHORT).show();
+            Intent i = new Intent(Cards.this, NoMoreMatch.class);
+            startActivity(i);
         }
     }
 
     private void findMatchesForCurrentUser() {
         if(currentUser != null){
+            matchedUserNames = sharedPreferences.getStringSet("matchedUsers", new HashSet<>());
             matchedUsers = User.findMatches(currentUser, userList);
+
+            ArrayList<User> unmatchedUsers = new ArrayList<>();
+            for(User user: matchedUsers){
+                if(!matchedUserNames.contains(user.name)){
+                    unmatchedUsers.add(user);
+                }
+            }
+            matchedUsers = unmatchedUsers;
+
+            if (currentUserIndex >= matchedUsers.size()) {
+                currentUserIndex = matchedUsers.size() - 1;
+            }
         }
         else {
             Toast.makeText(Cards.this, "Loading Users!", Toast.LENGTH_SHORT).show();
@@ -294,26 +336,34 @@ public class Cards extends AppCompatActivity {
     }
 
     private void onSwipeRight() {
-        if(matchedUsers != null && matchedUsers.size() > 0 && currentUserIndex < matchedUsers.size()){
+        if (matchedUsers != null && matchedUsers.size() > 0 && currentUserIndex < matchedUsers.size()) {
             Toast.makeText(Cards.this, "Matched with " + currentUser.name, Toast.LENGTH_SHORT).show();
-            matchList.add(matchedUsers.get(currentUserIndex).name);
-            currentUserIndex++;
-            displayCurrentUser();
+
+            //store data locally
+            String matchedUserName = matchedUsers.get(currentUserIndex).name;
+            matchedUserNames.add(matchedUserName);
+            sharedPreferences.edit().putStringSet("matchedUsers", matchedUserNames).apply();
 
             String userId = user.getUid();
-
             DocumentReference userRef = db.collection("Users").document(userId);
-
-            Map<String, Object> updateData = new HashMap<>();
-            updateData.put("matchList", matchList);
 
             userRef.get().addOnCompleteListener(getTask -> {
                 if (getTask.isSuccessful()) {
                     DocumentSnapshot document = getTask.getResult();
-                    if (document.exists() && document.contains("matchList")) {
-                        userRef.update(updateData)
-                                .addOnCompleteListener(updateTask -> {
-                                    if (updateTask.isSuccessful()) {
+                    if (document.exists()) {
+                        ArrayList<String> matchList = (ArrayList<String>) document.get("matchList");
+                        if (matchList == null) {
+                            matchList = new ArrayList<>();
+                        }
+
+                        matchList.add(matchedUserName);
+
+                        Map<String, Object> updateData = new HashMap<>();
+                        updateData.put("matchList", matchList);
+
+                        userRef.set(updateData, SetOptions.merge())
+                                .addOnCompleteListener(setTask -> {
+                                    if (setTask.isSuccessful()) {
                                         // Update operation successful
                                         // Handle any additional logic here
                                     } else {
@@ -322,29 +372,28 @@ public class Cards extends AppCompatActivity {
                                     }
                                 });
                     } else {
-                        userRef.set(updateData, SetOptions.merge())
-                                .addOnCompleteListener(setTask -> {
-                                    if (setTask.isSuccessful()) {
-                                        // Set operation successful
-                                        // Handle any additional logic here
-                                    } else {
-                                        // Set operation failed
-                                        // Handle the error here
-                                    }
-                                });
+                        // Document doesn't exist
+                        // Handle the error here
                     }
                 } else {
                     // Error fetching document
                     // Handle the error here
                 }
-            });}
-        else {
+            });
+
+            currentUserIndex++;
+            displayCurrentUser();
+        } else {
             Toast.makeText(Cards.this, "No more users found", Toast.LENGTH_SHORT).show();
         }
     }
 
     private void onSwipeLeft() {
-        // Handle swipe left action
+        //Store data locally
+        String matchedUserName = matchedUsers.get(currentUserIndex).name;
+        matchedUserNames.add(matchedUserName);
+        sharedPreferences.edit().putStringSet("matchedUsers", matchedUserNames).apply();
+
         currentUserIndex++;
         displayCurrentUser();
     }
@@ -373,5 +422,14 @@ public class Cards extends AppCompatActivity {
             return result;
         }
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt("currentUserIndex", currentUserIndex);
+        editor.apply();
+    }
+
 
 }
