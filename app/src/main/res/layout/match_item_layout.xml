@@ -6,6 +6,8 @@
     android:layout_height="wrap_content"
     android:layout_marginTop="12dp"
     android:layout_marginBottom="20dp"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp"
     >
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -104,7 +106,7 @@
             android:layout_marginEnd="157dp"
             android:fontFamily="@font/elmessiri_regular"
             android:text="location"
-            android:textColor="#757575"
+            android:textColor="#2196F3"
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
