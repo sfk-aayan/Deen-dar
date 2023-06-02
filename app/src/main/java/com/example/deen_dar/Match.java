@@ -36,7 +36,7 @@ public class Match extends AppCompatActivity {
     private FirebaseUser user;
     private ArrayList<String> matchList;
     private ArrayList<User> likedUsers;
-    private TextView name, location, phone, interests, gender;
+    private TextView name, location, phone, interests, gender, father_no;
     private ImageView profile_img;
     boolean check;
     private String currentUserName;
@@ -184,6 +184,7 @@ public class Match extends AppCompatActivity {
             phone = userItemView.findViewById(R.id.no_data);
             gender = userItemView.findViewById(R.id.gen_data);
             profile_img = userItemView.findViewById(R.id.profile_image);
+            father_no = userItemView.findViewById(R.id.textView14);
 
             if (user.imageUri != null) {
                 Glide.with(Match.this)
@@ -193,11 +194,14 @@ public class Match extends AppCompatActivity {
             }
 
             String start_msg = user.name + ", " + user.age;
-
+            String father_msg = "Father's no:";
 
             // Set the data to the views
             name.setText(start_msg);
             location.setText(user.location);
+            if(user.gender == User.Gender.Female){
+                father_no.setText(father_msg);
+            }
             phone.setText(user.phone);
             gender.setText(user.gender.toString());
 

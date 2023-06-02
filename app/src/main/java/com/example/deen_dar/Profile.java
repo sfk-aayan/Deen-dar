@@ -24,7 +24,7 @@ import java.util.List;
 
 public class Profile extends AppCompatActivity {
 
-    private TextView name_age, location, gender, height, phone, occupation, interests;
+    private TextView name_age, location, gender, height, phone, occupation, interests, father_no;
     private ImageView profilePic, matchesImg, matchingImg, profileImg, matches_icon;
     private Button logout_btn;
     private FirebaseFirestore db;
@@ -43,6 +43,7 @@ public class Profile extends AppCompatActivity {
         occupation = findViewById(R.id.occupation);
         interests = findViewById(R.id.interests);
         profilePic = findViewById(R.id.imageView4);
+        father_no = findViewById(R.id.textView6);
 
         matches_icon = findViewById(R.id.matches_img);
         matchingImg = findViewById(R.id.imageView2);
@@ -78,11 +79,15 @@ public class Profile extends AppCompatActivity {
                 }
 
                 String start_msg = name + ", " + age;
+                String father_msg = "Father's Number: ";
 
                 Profile.this.name_age.setText(start_msg);
                 Profile.this.location.setText(location);
                 Profile.this.gender.setText(gender);
                 Profile.this.height.setText(height);
+                if(gender.equals("Female")) {
+                    Profile.this.father_no.setText(father_msg);
+                }
                 Profile.this.phone.setText(phone);
                 Profile.this.occupation.setText(occupation);
 
