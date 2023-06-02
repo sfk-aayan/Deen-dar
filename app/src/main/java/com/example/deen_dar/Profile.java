@@ -8,6 +8,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,6 +30,7 @@ public class Profile extends AppCompatActivity {
     private Button logout_btn;
     private FirebaseFirestore db;
     private FirebaseAuth auth;
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,12 +52,14 @@ public class Profile extends AppCompatActivity {
         matchesImg = findViewById(R.id.matching_img);
         profileImg = findViewById(R.id.profile_img);
         logout_btn = findViewById(R.id.button5);
+        progressBar = findViewById(R.id.progressBar);
 
         auth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
         String userId = auth.getCurrentUser().getUid();
 
         DocumentReference documentRef = db.collection("Users").document(userId);
+        progressBar.setVisibility(View.VISIBLE);
 
         documentRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
@@ -80,6 +84,8 @@ public class Profile extends AppCompatActivity {
 
                 String start_msg = name + ", " + age;
                 String father_msg = "Father's Number: ";
+
+                progressBar.setVisibility(View.GONE);
 
                 Profile.this.name_age.setText(start_msg);
                 Profile.this.location.setText(location);

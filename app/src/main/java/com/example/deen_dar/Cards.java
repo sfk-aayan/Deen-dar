@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -53,6 +54,8 @@ public class Cards extends AppCompatActivity {
     private GestureDetector gestureDetector;
     private SharedPreferences sharedPreferences;
     private Set<String> matchedUserNames;
+    private ProgressBar progressBar;
+
 
 
     @Override
@@ -68,6 +71,8 @@ public class Cards extends AppCompatActivity {
         profile_nav = findViewById(R.id.imageView10);
         matching_nav = findViewById(R.id.imageView2);
         matches_nav = findViewById(R.id.imageView9);
+        progressBar = findViewById(R.id.progressBar);
+
 
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
@@ -194,6 +199,7 @@ public class Cards extends AppCompatActivity {
 
     private void fetchUsers() {
 
+        progressBar.setVisibility(View.VISIBLE);
         CollectionReference usersCollectionRef = db.collection("Users");
 
         usersCollectionRef.get().addOnCompleteListener(task -> {
@@ -219,6 +225,7 @@ public class Cards extends AppCompatActivity {
                         userList.add(user);
                     }
 
+                    progressBar.setVisibility(View.GONE);
                     findMatchesForCurrentUser();  // Find matches for the current user
                     if(!matchedUsers.isEmpty() && matchedUsers != null)
                         displayCurrentUser();  // Update the views after fetching the users
@@ -312,6 +319,7 @@ public class Cards extends AppCompatActivity {
     }
 
     private void findMatchesForCurrentUser() {
+        progressBar.setVisibility(View.VISIBLE);
         if(currentUser != null){
             matchedUserNames = sharedPreferences.getStringSet("matchedUsers", new HashSet<>());
             matchedUsers = User.findMatches(currentUser, userList);
@@ -327,6 +335,7 @@ public class Cards extends AppCompatActivity {
             if (currentUserIndex >= matchedUsers.size()) {
                 currentUserIndex = matchedUsers.size() - 1;
             }
+            progressBar.setVisibility(View.GONE);
         }
         else {
             Toast.makeText(Cards.this, "Loading Users!", Toast.LENGTH_SHORT).show();

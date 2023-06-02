@@ -153,6 +153,18 @@
 
                 </LinearLayout>
 
+                <ProgressBar
+                    android:id="@+id/progressBar"
+                    android:layout_width="200dp"
+                    android:layout_height="200dp"
+                    android:layout_gravity="center"
+                    android:visibility="gone"
+                    android:progressTint="@color/teal_200"
+                    app:layout_constraintTop_toTopOf="@+id/linear_gesture"
+                    app:layout_constraintBottom_toBottomOf="@+id/linear_gesture"
+                    app:layout_constraintStart_toStartOf="@+id/linear_gesture"
+                    app:layout_constraintEnd_toEndOf="@+id/linear_gesture" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
 

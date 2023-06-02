@@ -154,7 +154,20 @@
                                         android:textColor="#000000"
                                         android:textSize="24sp" />
                                 </LinearLayout>
+
                             </LinearLayout>
+
+                            <ProgressBar
+                                android:id="@+id/progressBar"
+                                android:layout_width="200dp"
+                                android:layout_height="200dp"
+                                android:layout_margin="16dp"
+                                android:indeterminate="false"
+                                android:max="100"
+                                android:progress="10"
+                                android:visibility="gone"
+                                android:progressTint="@color/teal_200"
+                                android:layout_gravity="center" />
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -346,15 +359,19 @@
                                 android:layout_height="1dp"
                                 android:layout_margin="10dp"
                                 android:background="#D9D9D9" />
+
                         </LinearLayout>
                     </ScrollView>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
+
+
         </LinearLayout>
 
 
     </ScrollView>
+
 
     <LinearLayout
         android:layout_width="411dp"
