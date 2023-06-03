@@ -45,7 +45,7 @@
                         <Button
                             android:id="@+id/button5"
                             android:layout_width="76dp"
-                            android:layout_height="36dp"
+                            android:layout_height="48dp"
                             android:layout_marginTop="16dp"
                             android:backgroundTint="#f27c78"
                             android:fontFamily="@font/elmessiri_bold"
@@ -188,7 +188,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
-                                    android:text="Dhaka"
+                                    android:text="Location"
                                     android:textAlignment="viewEnd"
                                     android:textSize="18sp" />
                             </LinearLayout>
@@ -220,7 +220,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
-                                    android:text="Male"
+                                    android:text="Gender"
                                     android:textAlignment="viewEnd"
                                     android:textSize="18sp" />
                             </LinearLayout>
@@ -251,7 +251,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
-                                    android:text="5'8&quot;"
+                                    android:text="Height"
                                     android:textAlignment="viewEnd"
                                     android:textSize="18sp" />
 
@@ -315,7 +315,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
-                                    android:text="Engineer"
+                                    android:text="Occupation"
                                     android:textAlignment="viewEnd"
                                     android:textSize="18sp" />
 
@@ -347,7 +347,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
-                                    android:text="Poetry, Sports, Quran, Writing, Reading, Traveling"
+                                    android:text="Interests"
                                     android:textAlignment="viewEnd"
                                     android:textSize="18sp" />
 

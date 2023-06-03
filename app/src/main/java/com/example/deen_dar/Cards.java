@@ -55,6 +55,7 @@ public class Cards extends AppCompatActivity {
     private SharedPreferences sharedPreferences;
     private Set<String> matchedUserNames;
     private ProgressBar progressBar;
+    private String Uid;
 
 
 
@@ -77,19 +78,20 @@ public class Cards extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
         db = FirebaseFirestore.getInstance();
+        Uid = user.getUid();
         matchList = new ArrayList<>();
         copyUsers = new ArrayList<>();
 
         gestureDetector = new GestureDetector(this, new SwipeGestureListener());
         sharedPreferences = getSharedPreferences("matchedUsers", Context.MODE_PRIVATE);
         // Retrieve the value of currentUserIndex from SharedPreferences
-        currentUserIndex = sharedPreferences.getInt("currentUserIndex", 0);
+        currentUserIndex = sharedPreferences.getInt("currentUserIndex"+Uid, 0);
 
 
         //Debug Code
 //        SharedPreferences.Editor editor = sharedPreferences.edit();
-//        editor.remove("matchedUsers");
-//        editor.remove("currentUserIndex");
+//        editor.remove("matchedUsers"+Uid);
+//        editor.remove("currentUserIndex"+Uid);
 //        editor.apply();
 
         linear_gesture.setOnTouchListener(new View.OnTouchListener() {
@@ -108,13 +110,14 @@ public class Cards extends AppCompatActivity {
             public void onClick(View v) {
                 if (matchedUsers != null && matchedUsers.size() > 0 && currentUserIndex < matchedUsers.size()) {
                     Toast.makeText(Cards.this, "Matched with " + currentUser.name, Toast.LENGTH_SHORT).show();
+                    String userId = user.getUid();
 
                     //store data locally
                     String matchedUserName = matchedUsers.get(currentUserIndex).name;
                     matchedUserNames.add(matchedUserName);
-                    sharedPreferences.edit().putStringSet("matchedUsers", matchedUserNames).apply();
+                    sharedPreferences.edit().putStringSet("matchedUsers"+userId, matchedUserNames).apply();
 
-                    String userId = user.getUid();
+
                     DocumentReference userRef = db.collection("Users").document(userId);
 
                     userRef.get().addOnCompleteListener(getTask -> {
@@ -166,7 +169,7 @@ public class Cards extends AppCompatActivity {
                 //Store data locally
                 String matchedUserName = matchedUsers.get(currentUserIndex).name;
                 matchedUserNames.add(matchedUserName);
-                sharedPreferences.edit().putStringSet("matchedUsers", matchedUserNames).apply();
+                sharedPreferences.edit().putStringSet("matchedUsers"+Uid, matchedUserNames).apply();
                 currentUserIndex++;
                 displayCurrentUser();
             }
@@ -321,7 +324,7 @@ public class Cards extends AppCompatActivity {
     private void findMatchesForCurrentUser() {
         progressBar.setVisibility(View.VISIBLE);
         if(currentUser != null){
-            matchedUserNames = sharedPreferences.getStringSet("matchedUsers", new HashSet<>());
+            matchedUserNames = sharedPreferences.getStringSet("matchedUsers"+Uid, new HashSet<>());
             matchedUsers = User.findMatches(currentUser, userList);
 
             ArrayList<User> unmatchedUsers = new ArrayList<>();
@@ -347,13 +350,13 @@ public class Cards extends AppCompatActivity {
     private void onSwipeRight() {
         if (matchedUsers != null && matchedUsers.size() > 0 && currentUserIndex < matchedUsers.size()) {
             Toast.makeText(Cards.this, "Matched with " + currentUser.name, Toast.LENGTH_SHORT).show();
+            String userId = user.getUid();
 
             //store data locally
             String matchedUserName = matchedUsers.get(currentUserIndex).name;
             matchedUserNames.add(matchedUserName);
-            sharedPreferences.edit().putStringSet("matchedUsers", matchedUserNames).apply();
+            sharedPreferences.edit().putStringSet("matchedUsers"+userId, matchedUserNames).apply();
 
-            String userId = user.getUid();
             DocumentReference userRef = db.collection("Users").document(userId);
 
             userRef.get().addOnCompleteListener(getTask -> {
@@ -401,7 +404,7 @@ public class Cards extends AppCompatActivity {
         //Store data locally
         String matchedUserName = matchedUsers.get(currentUserIndex).name;
         matchedUserNames.add(matchedUserName);
-        sharedPreferences.edit().putStringSet("matchedUsers", matchedUserNames).apply();
+        sharedPreferences.edit().putStringSet("matchedUsers"+Uid, matchedUserNames).apply();
 
         currentUserIndex++;
         displayCurrentUser();
@@ -436,7 +439,7 @@ public class Cards extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putInt("currentUserIndex", currentUserIndex);
+        editor.putInt("currentUserIndex"+Uid, currentUserIndex);
         editor.apply();
     }
 
