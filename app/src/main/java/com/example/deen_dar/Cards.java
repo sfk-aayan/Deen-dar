@@ -2,12 +2,15 @@ package com.example.deen_dar;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.GestureDetector;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -89,10 +92,10 @@ public class Cards extends AppCompatActivity {
 
 
         //Debug Code
-//        SharedPreferences.Editor editor = sharedPreferences.edit();
-//        editor.remove("matchedUsers"+Uid);
-//        editor.remove("currentUserIndex"+Uid);
-//        editor.apply();
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.remove("matchedUsers"+Uid);
+        editor.remove("currentUserIndex"+Uid);
+        editor.apply();
 
         linear_gesture.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -109,7 +112,27 @@ public class Cards extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (matchedUsers != null && matchedUsers.size() > 0 && currentUserIndex < matchedUsers.size()) {
-                    Toast.makeText(Cards.this, "Matched with " + currentUser.name, Toast.LENGTH_SHORT).show();
+                    LayoutInflater inflater = getLayoutInflater();
+                    View toastLayout = inflater.inflate(R.layout.toast_matched_with, findViewById(R.id.toast_linear));
+
+                    toastLayout.setScaleX(0f);
+                    toastLayout.setScaleY(0f);
+
+                    ObjectAnimator scaleXAnimator = ObjectAnimator.ofFloat(toastLayout, "scaleX", 0f, 1f);
+                    scaleXAnimator.setDuration(500);
+
+                    ObjectAnimator scaleYAnimator = ObjectAnimator.ofFloat(toastLayout, "scaleY", 0f, 1f);
+                    scaleYAnimator.setDuration(500);
+
+                    AnimatorSet animatorSet = new AnimatorSet();
+                    animatorSet.playTogether(scaleXAnimator, scaleYAnimator);
+                    animatorSet.start();
+
+                    Toast toast = new Toast(getApplicationContext());
+                    toast.setDuration(Toast.LENGTH_SHORT);
+                    toast.setView(toastLayout);
+                    toast.show();
+
                     String userId = user.getUid();
 
                     //store data locally
@@ -166,6 +189,27 @@ public class Cards extends AppCompatActivity {
         dislike.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                LayoutInflater inflater = getLayoutInflater();
+                View toastLayout = inflater.inflate(R.layout.toast_thumbs_down, findViewById(R.id.toast_linear));
+
+                toastLayout.setScaleX(0f);
+                toastLayout.setScaleY(0f);
+
+                ObjectAnimator scaleXAnimator = ObjectAnimator.ofFloat(toastLayout, "scaleX", 0f, 1f);
+                scaleXAnimator.setDuration(500);
+
+                ObjectAnimator scaleYAnimator = ObjectAnimator.ofFloat(toastLayout, "scaleY", 0f, 1f);
+                scaleYAnimator.setDuration(500);
+
+                AnimatorSet animatorSet = new AnimatorSet();
+                animatorSet.playTogether(scaleXAnimator, scaleYAnimator);
+                animatorSet.start();
+
+                Toast toast = new Toast(getApplicationContext());
+                toast.setDuration(Toast.LENGTH_SHORT);
+                toast.setView(toastLayout);
+                toast.show();
+
                 //Store data locally
                 String matchedUserName = matchedUsers.get(currentUserIndex).name;
                 matchedUserNames.add(matchedUserName);
@@ -349,7 +393,27 @@ public class Cards extends AppCompatActivity {
 
     private void onSwipeRight() {
         if (matchedUsers != null && matchedUsers.size() > 0 && currentUserIndex < matchedUsers.size()) {
-            Toast.makeText(Cards.this, "Matched with " + currentUser.name, Toast.LENGTH_SHORT).show();
+            LayoutInflater inflater = getLayoutInflater();
+            View toastLayout = inflater.inflate(R.layout.toast_matched_with, findViewById(R.id.toast_linear));
+
+            toastLayout.setScaleX(0f);
+            toastLayout.setScaleY(0f);
+
+            ObjectAnimator scaleXAnimator = ObjectAnimator.ofFloat(toastLayout, "scaleX", 0f, 1f);
+            scaleXAnimator.setDuration(500);
+
+            ObjectAnimator scaleYAnimator = ObjectAnimator.ofFloat(toastLayout, "scaleY", 0f, 1f);
+            scaleYAnimator.setDuration(500);
+
+            AnimatorSet animatorSet = new AnimatorSet();
+            animatorSet.playTogether(scaleXAnimator, scaleYAnimator);
+            animatorSet.start();
+
+            Toast toast = new Toast(getApplicationContext());
+            toast.setDuration(Toast.LENGTH_SHORT);
+            toast.setView(toastLayout);
+            toast.show();
+
             String userId = user.getUid();
 
             //store data locally
@@ -401,6 +465,27 @@ public class Cards extends AppCompatActivity {
     }
 
     private void onSwipeLeft() {
+        LayoutInflater inflater = getLayoutInflater();
+        View toastLayout = inflater.inflate(R.layout.toast_thumbs_down, findViewById(R.id.toast_linear));
+
+        toastLayout.setScaleX(0f);
+        toastLayout.setScaleY(0f);
+
+        ObjectAnimator scaleXAnimator = ObjectAnimator.ofFloat(toastLayout, "scaleX", 0f, 1f);
+        scaleXAnimator.setDuration(500);
+
+        ObjectAnimator scaleYAnimator = ObjectAnimator.ofFloat(toastLayout, "scaleY", 0f, 1f);
+        scaleYAnimator.setDuration(500);
+
+        AnimatorSet animatorSet = new AnimatorSet();
+        animatorSet.playTogether(scaleXAnimator, scaleYAnimator);
+        animatorSet.start();
+
+        Toast toast = new Toast(getApplicationContext());
+        toast.setDuration(Toast.LENGTH_SHORT);
+        toast.setView(toastLayout);
+        toast.show();
+
         //Store data locally
         String matchedUserName = matchedUsers.get(currentUserIndex).name;
         matchedUserNames.add(matchedUserName);
