@@ -13,6 +13,7 @@ import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -349,6 +350,13 @@ public class Cards extends AppCompatActivity {
             String s_name = currentMatch.name;
             String s_age = currentMatch.age;
             String start_msg = s_name + ", " + s_age;
+
+            // Apply fade-in animation to the views
+            AlphaAnimation fadeInAnimation = new AlphaAnimation(0.0f, 1.0f);
+            fadeInAnimation.setDuration(1000); // Set the duration of the animation in milliseconds
+            profile_img.startAnimation(fadeInAnimation);
+            name_age.startAnimation(fadeInAnimation);
+            interests.startAnimation(fadeInAnimation);
 
             name_age.setText(start_msg);
 
