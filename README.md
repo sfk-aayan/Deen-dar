@@ -1,6 +1,7 @@
 
 # Deen-Dar
 
+
 A matrimony Android application developed using Android Studio, designed to facilitate individuals in setting up their profiles for the purpose of finding a suitable match for marriage. The app allows users to input necessary personal information and exchange details about themselves and their parents with potential matches.
 
 ## Features
